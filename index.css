@@ -1,0 +1,281 @@
+    :root {
+        --bg-color: #1a1a1a;
+        --primary-color: #6ee7b7;
+        /* A vibrant mint green */
+        --text-color: #6ee7b7;
+        --secondary-text-color: #6ee7b7;
+        --border-color: #353535;
+        --font-sans: 'Inter', sans-serif;
+        --font-mono: 'Fira Code', monospace;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body.cybersecurity {
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        font-family: var(--font-sans);
+        line-height: 1.6;
+        background-image: url('assets/cybersecurity_home.png');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-attachment: fixed;
+    }
+
+    body {
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        font-family: var(--font-sans);
+        line-height: 1.6;
+        background-image: url('assets/background_home.png');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-attachment: fixed;
+    }
+
+    .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    h1,
+    h2,
+    h3 {
+        line-height: 1.2;
+    }
+
+    h1,h2 {
+
+        font-family: 'Dancing Script', cursive;
+
+    }
+
+    a {
+        color: var(--primary-color);
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    a:hover {
+        color: var(--text-color);
+    }
+
+    p {
+        color: var(--secondary-text-color);
+
+    }
+
+    /* Header */
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 2rem 0;
+    }
+
+    .logo {
+        font-family: var(--font-mono);
+        font-size: 1.5rem;
+        font-weight: 500;
+        color: var(--primary-color);
+    }
+
+    .main-nav ul {
+        display: flex;
+        list-style: none;
+        gap: 2rem;
+    }
+
+    .main-nav a {
+        color: var(--text-color);
+        font-size: 1rem;
+    }
+
+    /* Hero Section */
+    .hero {
+        text-align: left;
+        padding: 4rem 0;
+    }
+
+    .hero h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-bottom: 2rem;
+    }
+
+    .hero-buttons {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+        font-weight: 500;
+        border: 1px solid var(--primary-color);
+        border-radius: 4px;
+        background-color: transparent;
+        color: var(--primary-color);
+        cursor: pointer;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .btn:hover {
+        background-color: rgba(110, 231, 183, 0.1);
+    }
+
+    /* Section Title */
+    .section-title {
+        font-size: 2.25rem;
+        color: var(--primary-color);
+        margin-top: 4rem;
+        margin-bottom: 2rem;
+        font-weight: 500;
+    }
+
+    /* Blog Section */
+    .blog-post {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 1.5rem 0;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .blog-post-content h3 {
+        font-size: 1.25rem;
+        color: var(--text-color);
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+    }
+
+    .read-more {
+        white-space: nowrap;
+        margin-left: 2rem;
+        font-weight: 500;
+    }
+
+    /* Projects Section */
+    .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+    }
+
+    .project-card h3 {
+        font-size: 1.25rem;
+        color: var(--text-color);
+        margin-bottom: 0.25rem;
+        font-weight: 500;
+    }
+
+    .project-card .tech {
+        color: var(--primary-color);
+        margin-bottom: 0.75rem;
+        font-size: 0.9rem;
+    }
+
+    /* Footer */
+    .footer {
+        text-align: center;
+        padding: 5rem 0 2rem;
+    }
+
+    .social-links {
+        margin-bottom: 1.5rem;
+    }
+
+    .social-links a {
+        margin: 0 0.75rem;
+    }
+
+    .social-links svg {
+        width: 24px;
+        height: 24px;
+        fill: var(--secondary-text-color);
+        transition: fill 0.3s ease;
+    }
+
+    .social-links a:hover svg {
+        fill: var(--primary-color);
+    }
+
+    .footer p {
+        font-size: 0.9rem;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .hero h1 {
+            font-size: 2.5rem;
+        }
+
+        .main-nav {
+            display: none;
+            /* A simple approach for mobile, can be replaced with a hamburger menu */
+        }
+    }
+
+    @media (max-width: 480px) {
+        .container {
+            padding: 0 1rem;
+        }
+
+        .hero h1 {
+            font-size: 2rem;
+        }
+
+        .hero-buttons {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .blog-post {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .read-more {
+            margin-left: 0;
+            margin-top: 1rem;
+        }
+    }
+.hero-buttons-wrapper {
+  display: flex;
+  gap: 16px;            /* space between the buttons */
+  align-items: center;  /* vertical alignment */
+  justify-content: flex-start; /* change to center / space-between if needed */
+  flex-wrap: wrap;      /* allows wrapping on narrow screens */
+}
+
+/* Optional: reset any margins on the children */
+.hero-buttons { margin: 0; }
+
+
+
+/* Responsive: stack vertically on small screens */
+@media (max-width: 600px) {
+  .hero-buttons-wrapper {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+  }
+}
+
+  .btn {
+    width: 100%;
+    text-align: center;
+}
