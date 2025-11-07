@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synapse</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="../index.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bitcount+Single+Ink&family=Inter:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bitcount+Single+Ink&family=Dancing+Script:wght@400;700&display=swap"
+        rel="stylesheet">
+
+</head>
+
+<body class="cybersecurity">
+
+    <div class="container">
+
+        <header class="header">
+            <div class="logo">&lt;&gt;</div>
+            <nav class="main-nav">
+                <ul>
+                    <li class="btn"><a href="../index.html">Home</a></li>
+                    <li class="btn"><a href="#blog">Blog</a></li>
+                    <li class="btn"><a href="#about">About</a></li>
+                    <li class="btn"><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
+        <h1>The Slowloris Attack: A Low-Bandwidth Denial of Service</h1><br>
+        <h2>Most Denial of Service (DoS) attacks are brute force, relying on overwhelming a server with a massive volume of traffic from a botnet. The Slowloris attack is different. It’s a stealthy, low-bandwidth attack that can bring down a web server with a single machine and minimal resources.</h2>
+        <br>
+        <h1>How it Works</h1><br>
+        <h2>
+            Instead of flooding the server, Slowloris opens multiple connections and keeps them open for as long as possible. It does this by sending partial HTTP requests, but never completing them. The server, waiting for the requests to finish, keeps the connections open. By slowly and continuously opening new connections, Slowloris can exhaust the server's maximum concurrent connection pool, making it unable to respond to legitimate traffic.
+        </h2><br>
+        <h1>The Attack in Detail</h1><br>
+        <h2>
+            <ol>
+                <li>The attacker opens multiple connections to the target web server.</li><br>
+                <li>On each connection, the attacker sends a partial HTTP request header.</li><br>
+                <li>The server, expecting the rest of the header, keeps the connection open.</li><br>
+                <li>The attacker periodically sends additional, small pieces of data to keep the connections from timing out.</li><br>
+                <li>As more and more connections are opened and held in this "half-open" state, the server's connection pool becomes saturated.</li><br>
+                <li>Legitimate users are unable to connect to the server, resulting in a Denial of Service.</li>
+            </ol>
+        </h2><br>
+        <h1>Why it's Effective</h1><br>
+        <h2>Slowloris is effective because it doesn't require a lot of bandwidth. It's a "low and slow" attack that can be launched from a single machine. It's also difficult to detect because the traffic it generates looks like legitimate, albeit slow, client traffic.</h2><br>
+        <h1>How to Defend Against a Slowloris Attack</h1><br>
+        <h2>
+            <ol>
+                <li><strong>Increase the maximum number of connections:</strong> While not a complete solution, increasing the server's connection limit can make it more resilient to Slowloris attacks.</li><br>
+                <li><strong>Set a connection timeout:</strong> Configure the server to close connections that have been idle for too long. This will prevent Slowloris from holding connections open indefinitely.</li><br>
+                <li><strong>Use a reverse proxy:</strong> A reverse proxy can be configured to buffer incoming requests and only forward complete requests to the web server. This can help to mitigate the effects of a Slowloris attack.</li><br>
+                <li><strong>Use a web application firewall (WAF):</strong> A WAF can be configured to detect and block Slowloris attacks.</li>
+            </ol>
+        </h2><br>
+        
+            <main>
+                <section class="blog-section" id="blog">
+                    <h2 class="section-title">Blog</h2>
+                    <article class="blog-post">
+                        <div class="blog-post-content">
+                            <h2><a href="/cybersecurity/phishing.html">How to be safe from phishing attacks</a></h2>
+                            <strong>
+                                <p>In this modern world with the advancement of technology, devices are prone to cyber
+                                    attack in this blog I will show you how hackers do phishing attacks and how you can
+                                    remain safe from it...</p>
+                            </strong>
+                        </div>
+                        <a href="/cybersecurity/phishing.html" class="read-more">Read &rarr;</a>
+                    </article>
+                    <article class="blog-post">
+                        <div class="blog-post-content">
+                            <h2><a href="/cybersecurity/slowloris.html">Slowloris Attack</a></h2>
+                            <strong>
+                                <p>A deep dive into the Slowloris attack, a low-bandwidth Denial of Service attack...</p>
+                            </strong>
+                        </div>
+                        <a href="/cybersecurity/slowloris.html" class="read-more">Read &rarr;</a>
+                    </article>
+                    <article class="blog-post">
+                        <div class="blog-post-content">
+                            <h2><a href="#">How I Secured My Web Application</a></h2>
+                            <strong>
+                                <p>In this post, I'll share the steps to secure my web application from common
+                                    vulnerabilities...</p>
+                            </strong>
+                        </div>
+                        <a href="#" class="read-more">Read &rarr;</a>
+                    </article>
+                    <article class="blog-post">
+                        <div class="blog-post-content">
+                            <h2><a href="#">Exploring the Linux File System</a></h2>
+                            <strong>
+                                <p>A deep dive into the organization of the Linux file system, including useful
+                                    commands...
+                                </p>
+                            </strong>
+                        </div>
+                        <a href="#" class="read-more">Read &rarr;</a>
+                    </article>
+                </section>
+
+
+
+                <footer class="footer" id="contact">
+                    <div class="social-links">
+                        <a href="https://www.github.com/Ajay-singh1" aria-label="GitHub">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
+                                </path>
+                            </svg>
+                        </a>
+                        <a href="https://www.instagram.com/_ajay_singh.10" aria-label="Instagram">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24px"
+                                height="24px">
+                                <path
+                                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.012 3.584-.07 4.85c-.148 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.07-1.645-.07-4.85s.012-3.584.07-4.85c.148-3.225 1.664-4.771 4.919-4.919C8.416 2.175 8.796 2.163 12 2.163m0-2.163C8.74 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.74 0 12s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.74 24 12 24s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98C23.986 15.667 24 15.26 24 12s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98C15.667.014 15.26 0 12 0L12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.88 1.44 1.44 0 000-2.88z" />
+                            </svg>
+                        </a>
+                        <a href="https://linkedin.com/in/ajay-s1" aria-label="LinkedIn">
+                            <svg xmlns="http://www.linkedin.com/in/ajay-s1" viewBox="0 0 24 24">
+                                <path
+                                    d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                            </svg>
+                        </a>
+                    </div>
+                    <p>&copy; 2025 Synapse All rights reserved.</p>
+                </footer>
+    </div>
+
+</body>
+
+</html>
