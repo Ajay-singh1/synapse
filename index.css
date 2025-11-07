@@ -219,13 +219,18 @@
 
     /* Responsive Design */
     @media (max-width: 768px) {
-        .hero h1 {
-            font-size: 2.5rem;
+        .header {
+            flex-direction: column;
+            gap: 2rem;
         }
 
-        .main-nav {
-            display: none;
-            /* A simple approach for mobile, can be replaced with a hamburger menu */
+        .main-nav ul {
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
         }
     }
 
